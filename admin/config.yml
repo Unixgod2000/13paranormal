@@ -34,7 +34,6 @@ collections:
             name: hero_image
             widget: image
             required: false
-            allow_multiple: false
             hint: "Logo or image displayed on the left side of the hero section. Recommended size: 400x400px or square. Leave blank to show text only."
 
           - label: "Hero — Main Title"
