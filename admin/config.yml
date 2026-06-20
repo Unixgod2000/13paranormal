@@ -1,4 +1,3 @@
-
 backend:
   name: github
   repo: Unixgod2000/13paranormal
@@ -8,7 +7,7 @@ backend:
 media_folder: images
 public_folder: /images
 
-site_url: https://www.13paranormal.com
+site_url: https://www.13paranormal.org
 
 collections:
   - name: site_content
@@ -24,27 +23,40 @@ collections:
           - label: "Browser Tab Title"
             name: site_title
             widget: string
+            hint: "Text shown in the browser tab."
 
           - label: "Navigation Logo Text"
             name: nav_title
             widget: string
+            hint: "Organization name shown in the top-left navigation bar."
+
+          - label: "Hero — Logo Image"
+            name: hero_image
+            widget: image
+            required: false
+            allow_multiple: false
+            hint: "Logo or image displayed on the left side of the hero section. Recommended size: 400x400px or square. Leave blank to show text only."
 
           - label: "Hero — Main Title"
             name: hero_title
             widget: string
+            hint: "Large heading displayed in the hero section."
 
           - label: "Hero — Subtitle"
             name: hero_subtitle
             widget: string
+            hint: "Tagline displayed below the main title."
 
           - label: "Hero — Body Text"
             name: hero_body
             widget: text
+            hint: "Introductory paragraph describing the organization."
 
           - label: "Services"
             name: services
             widget: list
             summary: "{{fields.title}}"
+            hint: "The service columns shown on the home page. Add, remove, or reorder as needed."
             fields:
               - label: "Service Title"
                 name: title
@@ -56,15 +68,19 @@ collections:
           - label: "CTA — Heading"
             name: cta_heading
             widget: string
+            hint: "Heading in the call-to-action section."
 
           - label: "CTA — Body Text"
             name: cta_body
             widget: text
+            hint: "Paragraph below the CTA heading."
 
           - label: "Contact Email"
             name: contact_email
             widget: string
+            hint: "Email address shown in the contact section and footer."
 
           - label: "Footer Text"
             name: footer_text
             widget: string
+            hint: "Organization name in the footer copyright line."

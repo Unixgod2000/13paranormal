@@ -1,0 +1,26 @@
+{
+  "site_title": "Your Organization Name",
+  "nav_title": "Your Organization Name",
+  "hero_image": "",
+  "hero_title": "Your Organization Name",
+  "hero_subtitle": "Your tagline goes here",
+  "hero_body": "A brief introduction to your organization. Describe who you are, what you do, and the value you provide. Keep it to two or three sentences.",
+  "services": [
+    {
+      "title": "Service One",
+      "body": "Describe this service. What does it include, who is it for, and what outcome does the client get?"
+    },
+    {
+      "title": "Service Two",
+      "body": "Describe this service. Be specific rather than generic — specificity is more persuasive."
+    },
+    {
+      "title": "Service Three",
+      "body": "Describe this service. Add or remove service items in the CMS as needed."
+    }
+  ],
+  "cta_heading": "Ready to get started?",
+  "cta_body": "A short, action-oriented invitation to reach out or learn more about what your organization does.",
+  "contact_email": "contact@yourdomain.com",
+  "footer_text": "Your Organization Name"
+}
