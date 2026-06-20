@@ -1,32 +1,18 @@
 /* ============================================================
-   SITE TEMPLATE — CSS
-   ─────────────────────────────────────────────────────────
-   CUSTOMIZATION GUIDE
-   Change the values in :root to restyle the entire site:
-
-   --accent    Main brand color (links, headings, highlights)
-   --dark      Page/nav background
-   --dark-nav  Navigation bar background
-   --body-text Body text on dark background
-   --font      Google Font name (update <link> in index.html too)
+   13PARANORMAL — CSS
    ============================================================ */
 
 :root {
-  /* ── Brand colors — edit these ── */
-  --accent:      #226E93;   /* teal — change to your brand color */
-  --dark:        #212121;   /* page background */
-  --dark-nav:    #1a1a1a;   /* nav bar background */
+  --accent:      #226E93;
+  --dark:        #212121;
+  --dark-nav:    #1a1a1a;
   --white:       #ffffff;
   --body-text:   rgba(255, 255, 255, 0.85);
   --muted-text:  rgba(255, 255, 255, 0.55);
   --border:      rgba(255, 255, 255, 0.12);
-
-  /* ── Typography — edit font name to match Google Fonts ── */
-  --font: 'Lato', sans-serif;
-
-  /* ── Layout ── */
-  --max-w:  960px;
-  --nav-h:  64px;
+  --font:        'Lato', sans-serif;
+  --max-w:       960px;
+  --nav-h:       64px;
 }
 
 /* ============================================================
@@ -34,7 +20,6 @@
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   font-family: var(--font);
   font-size: 16px;
@@ -43,7 +28,6 @@ body {
   color: var(--body-text);
   -webkit-font-smoothing: antialiased;
 }
-
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--white); }
 img { max-width: 100%; display: block; }
@@ -59,7 +43,6 @@ img { max-width: 100%; display: block; }
   background: var(--dark-nav);
   border-bottom: 1px solid var(--border);
 }
-
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -69,14 +52,12 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
 }
-
 .nav-logo {
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--white);
 }
 .nav-logo:hover { color: var(--accent); }
-
 .nav-links {
   list-style: none;
   display: flex;
@@ -90,8 +71,6 @@ img { max-width: 100%; display: block; }
   transition: color 0.15s;
 }
 .nav-links a:hover { color: var(--white); }
-
-/* Mobile hamburger button */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -110,22 +89,49 @@ img { max-width: 100%; display: block; }
 }
 
 /* ============================================================
-   HERO SECTION
+   HERO — two-column when logo is present
    ============================================================ */
 .hero {
-  padding: 5rem 0 4.5rem;
-  text-align: center;
+  padding: 4rem 0;
 }
-
 .hero-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* Logo column — left side */
+.hero-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 220px;
+}
+.hero-logo img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  /* Subtle glow effect suits paranormal theme */
+  filter: drop-shadow(0 0 16px rgba(34, 110, 147, 0.4));
+}
+
+/* Text column — right side */
+.hero-text {
+  flex: 1;
+  text-align: left;
+}
+
+/* When no logo, center the text */
+.hero-inner:not(:has(.hero-logo[style*="flex"])) .hero-text {
+  text-align: center;
+  margin: 0 auto;
 }
 
 .hero-title {
-  /* Uses Times New Roman to match original Google Sites style.
-     Change to your preferred heading font. */
   font-family: 'Times New Roman', Georgia, serif;
   font-size: clamp(1.75rem, 4vw, 2.4rem);
   font-weight: 400;
@@ -133,21 +139,18 @@ img { max-width: 100%; display: block; }
   line-height: 1.2;
   margin-bottom: 0.5rem;
 }
-
 .hero-subtitle {
-  font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 300;
   color: var(--white);
   line-height: 1.3;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
-
 .hero-body {
   font-size: 1rem;
   color: var(--body-text);
   line-height: 1.75;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 60ch;
 }
 
 /* ============================================================
@@ -160,35 +163,26 @@ img { max-width: 100%; display: block; }
 }
 
 /* ============================================================
-   SERVICES — three-column grid
+   SERVICES
    ============================================================ */
-.services {
-  padding: 4rem 0;
-}
-
+.services { padding: 4rem 0; }
 .services-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
 }
-
-.service-col {
-  text-align: center;
-}
-
+.service-col { text-align: center; }
 .service-col h3 {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.75rem;
 }
-
 .service-col p {
   font-size: 0.9rem;
   color: var(--body-text);
@@ -196,42 +190,28 @@ img { max-width: 100%; display: block; }
 }
 
 /* ============================================================
-   CTA / CONTACT SECTION
+   CTA / CONTACT
    ============================================================ */
-.cta-section {
-  padding: 4rem 0;
-  text-align: center;
-}
-
+.cta-section { padding: 4rem 0; text-align: center; }
 .cta-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-
 .cta-heading {
   font-size: clamp(1.3rem, 2.5vw, 1.75rem);
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 1rem;
 }
-
 .cta-body {
   font-size: 1rem;
   color: var(--body-text);
   margin-bottom: 0.75rem;
   line-height: 1.75;
 }
-
-.cta-contact {
-  font-size: 1rem;
-  color: var(--body-text);
-}
-
-.cta-contact a {
-  color: var(--accent);
-  font-weight: 700;
-}
+.cta-contact { font-size: 1rem; color: var(--body-text); }
+.cta-contact a { color: var(--accent); font-weight: 700; }
 .cta-contact a:hover { color: var(--white); }
 
 /* ============================================================
@@ -244,31 +224,35 @@ img { max-width: 100%; display: block; }
   font-size: 0.8rem;
   color: var(--muted-text);
 }
-
 .site-footer a { color: var(--muted-text); }
 .site-footer a:hover { color: var(--white); }
 
 /* ============================================================
-   RESPONSIVE — mobile layout
+   RESPONSIVE
    ============================================================ */
 @media (max-width: 720px) {
-  .services-grid {
-    grid-template-columns: 1fr;
+  /* Hero stacks vertically on mobile */
+  .hero-inner {
+    flex-direction: column;
+    text-align: center;
     gap: 2rem;
   }
+  .hero-logo { width: 160px; }
+  .hero-text  { text-align: center; }
+  .hero-body  { max-width: none; }
 
-  .hero         { padding: 3.5rem 0 3rem; }
-  .services     { padding: 3rem 0; }
-  .cta-section  { padding: 3rem 0; }
+  .services-grid  { grid-template-columns: 1fr; gap: 2rem; }
+  .hero           { padding: 3rem 0; }
+  .services       { padding: 3rem 0; }
+  .cta-section    { padding: 3rem 0; }
 
-  /* Mobile nav dropdown */
+  /* Mobile nav */
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
     top: var(--nav-h);
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     background: var(--dark-nav);
     padding: 1rem 1.5rem 1.5rem;
     border-bottom: 1px solid var(--border);
@@ -284,9 +268,6 @@ img { max-width: 100%; display: block; }
   .nav-toggle { display: flex; }
 }
 
-/* ============================================================
-   ACCESSIBILITY — respect reduced motion preference
-   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
