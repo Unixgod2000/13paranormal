@@ -4,28 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" id="meta-description" />
-  <title id="page-title">Your Organization Name</title>
+  <title id="page-title">13Paranormal</title>
 
-  <!-- Font — change to suit your brand -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css" />
-  
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
   <!-- ===================== NAV ===================== -->
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="/" class="nav-logo" id="nav-title">Your Organization</a>
+      <a href="/" class="nav-logo" id="nav-title">13Paranormal</a>
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="/">Home</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -40,9 +39,19 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-inner">
-      <h1 id="hero-title" class="hero-title"></h1>
-      <p class="hero-subtitle" id="hero-subtitle"></p>
-      <p class="hero-body" id="hero-body"></p>
+
+      <!-- Logo — hidden if no hero_image set in content.json -->
+      <div class="hero-logo" id="hero-logo-wrap" style="display:none">
+        <img id="hero-logo-img" src="" alt="13Paranormal logo" />
+      </div>
+
+      <!-- Text content -->
+      <div class="hero-text">
+        <h1 id="hero-title" class="hero-title"></h1>
+        <p class="hero-subtitle" id="hero-subtitle"></p>
+        <p class="hero-body" id="hero-body"></p>
+      </div>
+
     </div>
   </section>
 
@@ -113,12 +122,21 @@
         // Nav
         document.getElementById('nav-title').textContent = d.nav_title;
 
-        // Hero
+        // Hero logo — only show if hero_image is set
+        if (d.hero_image) {
+          const wrap = document.getElementById('hero-logo-wrap');
+          const img  = document.getElementById('hero-logo-img');
+          img.src          = d.hero_image;
+          img.alt          = d.nav_title + ' logo';
+          wrap.style.display = 'flex';
+        }
+
+        // Hero text
         document.getElementById('hero-title').textContent    = d.hero_title;
         document.getElementById('hero-subtitle').textContent = d.hero_subtitle;
         document.getElementById('hero-body').textContent     = d.hero_body;
 
-        // Services — rendered dynamically
+        // Services
         const grid = document.getElementById('services-grid');
         (d.services || []).forEach(s => {
           const col = document.createElement('div');
@@ -148,9 +166,7 @@
         footerEmail.href        = 'mailto:' + email;
         footerEmail.textContent = email;
       })
-      .catch(err => {
-        console.error('Failed to load content:', err);
-      });
+      .catch(err => console.error('Failed to load content:', err));
   </script>
 
 </body>
