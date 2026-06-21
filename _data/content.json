@@ -1,26 +1,22 @@
 {
-  "site_title": "13 Paranormal",
-  "nav_title": "13 Paranormal",
-  "hero_image": "/images/13Para-logo.jpg",
-  "hero_title": "13 Paranormal",
-  "hero_subtitle": "Helping others make sense of the unexplained",
-  "hero_body": "Once known as the Research Society Virginia Paranormal, we are a team committed to investigating and assisting with paranormal activity. Our mission is to help others make sense of the unexplained with professionalism, integrity, and compassion.",
+  "site_title": "13Paranormal",
+  "nav_title": "13Paranormal",
+  "hero_image": "",
+  "hero_title": "",
+  "hero_subtitle": "",
+  "hero_body": "",
   "services": [
-    {
-      "title": "Service One",
-      "body": "Describe this service. What does it include, who is it for, and what outcome does the client get?"
-    },
-    {
-      "title": "Service Two",
-      "body": "Describe this service. Be specific rather than generic — specificity is more persuasive."
-    },
-    {
-      "title": "Service Three",
-      "body": "Describe this service. Add or remove service items in the CMS as needed."
-    }
+    { "title": "Service Title", "body": "Service description." }
   ],
-  "cta_heading": "Ready to get started?",
-  "cta_body": "A short, action-oriented invitation to reach out or learn more about what your organization does.",
-  "contact_email": "rsvpjamesb@outlook.com",
-  "footer_text": "13 Paranormal"
+  "cta_heading": "",
+  "cta_body": "",
+  "contact_email": "",
+  "footer_text": "13Paranormal",
+  "pages": [
+    { "id": "events",         "label": "Events",            "enabled": true  },
+    { "id": "about",          "label": "About Us",          "enabled": false },
+    { "id": "bios",           "label": "Meet the Team",     "enabled": false },
+    { "id": "investigations", "label": "Past Investigations","enabled": false },
+    { "id": "equipment",      "label": "Equipment",         "enabled": false }
+  ]
 }
