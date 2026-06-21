@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About 13Paranormal — who we are and what we do." id="meta-description" />
+  <title>About Us | 13Paranormal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .inner-page { max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .inner-page h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 2rem; }
+    .about-section { margin-bottom: 2.5rem; }
+    .about-section h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .about-section p { font-size: 1rem; line-height: 1.75; opacity: 0.9; white-space: pre-line; }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" id="nav-title">13Paranormal</a>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <!-- dynamic nav links injected here -->
+      </ul>
+      <button class="nav-toggle" id="nav-toggle"
+        aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="inner-page" id="page-content" aria-live="polite">
+      <h1 id="page-title">About Us</h1>
+      <div id="sections-container"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      &copy; <span id="year"></span>
+      <span id="footer-text"></span>
+      &nbsp;|&nbsp;
+      <a href="#" id="footer-email"></a>
+    </p>
+  </footer>
+
+  <script>
+    // ── Shared nav/footer loader ─────────────────────────────────────────────
+    function buildNav(data, currentPage) {
+      const ul = document.getElementById('nav-links');
+      ul.innerHTML = '<li><a href="/">Home</a></li>';
+      (data.pages || []).forEach(p => {
+        if (!p.enabled) return;
+        const li = document.createElement('li');
+        const a  = document.createElement('a');
+        a.href = '/' + p.id;
+        a.textContent = p.label;
+        if (p.id === currentPage) a.setAttribute('aria-current', 'page');
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      const contactLi = document.createElement('li');
+      contactLi.innerHTML = '<a href="/#contact">Contact</a>';
+      ul.appendChild(contactLi);
+    }
+
+    function applyShared(data, currentPage) {
+      if (data.nav_title)     document.getElementById('nav-title').textContent   = data.nav_title;
+      if (data.footer_text)   document.getElementById('footer-text').textContent = data.footer_text;
+      if (data.contact_email) {
+        const fe = document.getElementById('footer-email');
+        fe.href = 'mailto:' + data.contact_email;
+        fe.textContent = data.contact_email;
+      }
+      buildNav(data, currentPage);
+    }
+
+    // ── Mobile nav toggle ────────────────────────────────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', e => {
+      if (!toggle.contains(e.target) && !links.contains(e.target)) {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Load shared content ──────────────────────────────────────────────────
+    fetch('/_data/content.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => applyShared(d, 'about'))
+      .catch(() => {});
+
+    // ── Load page content ────────────────────────────────────────────────────
+    fetch('/_data/about.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        if (d.page_title) {
+          document.getElementById('page-title').textContent = d.page_title;
+          document.title = d.page_title + ' | 13Paranormal';
+        }
+        const container = document.getElementById('sections-container');
+        (d.sections || []).forEach(s => {
+          const sec = document.createElement('div');
+          sec.className = 'about-section';
+          if (s.heading) {
+            const h2 = document.createElement('h2');
+            h2.textContent = s.heading;
+            sec.appendChild(h2);
+          }
+          if (s.body) {
+            const p = document.createElement('p');
+            p.textContent = s.body;
+            sec.appendChild(p);
+          }
+          container.appendChild(sec);
+        });
+      })
+      .catch(() => {});
+  </script>
+
+</body>
+</html>

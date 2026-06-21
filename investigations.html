@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Past investigations conducted by 13Paranormal." id="meta-description" />
+  <title>Past Investigations | 13Paranormal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .inner-page { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .inner-page h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .page-intro { font-size: 1.05rem; opacity: 0.85; margin-bottom: 2.5rem; }
+    .investigations-list { display: flex; flex-direction: column; gap: 2.5rem; }
+    .investigation-card {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 640px) {
+      .investigation-card { grid-template-columns: 1fr; }
+    }
+    .investigation-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+    }
+    .investigation-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      opacity: 0.3;
+    }
+    .investigation-text h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.25rem; }
+    .investigation-date { font-size: 0.85rem; opacity: 0.55; margin: 0 0 0.75rem; }
+    .investigation-summary { font-size: 0.97rem; line-height: 1.75; opacity: 0.88; white-space: pre-line; }
+    hr.card-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" id="nav-title">13Paranormal</a>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle"
+        aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="inner-page" aria-live="polite">
+      <h1 id="page-title">Past Investigations</h1>
+      <p class="page-intro" id="page-intro"></p>
+      <div class="investigations-list" id="investigations-list"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      &copy; <span id="year"></span>
+      <span id="footer-text"></span>
+      &nbsp;|&nbsp;
+      <a href="#" id="footer-email"></a>
+    </p>
+  </footer>
+
+  <script>
+    function buildNav(data, currentPage) {
+      const ul = document.getElementById('nav-links');
+      ul.innerHTML = '<li><a href="/">Home</a></li>';
+      (data.pages || []).forEach(p => {
+        if (!p.enabled) return;
+        const li = document.createElement('li');
+        const a  = document.createElement('a');
+        a.href = '/' + p.id;
+        a.textContent = p.label;
+        if (p.id === currentPage) a.setAttribute('aria-current', 'page');
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      const contactLi = document.createElement('li');
+      contactLi.innerHTML = '<a href="/#contact">Contact</a>';
+      ul.appendChild(contactLi);
+    }
+
+    function applyShared(data, currentPage) {
+      if (data.nav_title)     document.getElementById('nav-title').textContent   = data.nav_title;
+      if (data.footer_text)   document.getElementById('footer-text').textContent = data.footer_text;
+      if (data.contact_email) {
+        const fe = document.getElementById('footer-email');
+        fe.href = 'mailto:' + data.contact_email;
+        fe.textContent = data.contact_email;
+      }
+      buildNav(data, currentPage);
+    }
+
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', e => {
+      if (!toggle.contains(e.target) && !links.contains(e.target)) {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    fetch('/_data/content.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => applyShared(d, 'investigations'))
+      .catch(() => {});
+
+    fetch('/_data/investigations.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        if (d.page_title) {
+          document.getElementById('page-title').textContent = d.page_title;
+          document.title = d.page_title + ' | 13Paranormal';
+        }
+        if (d.page_intro) document.getElementById('page-intro').textContent = d.page_intro;
+
+        const list = document.getElementById('investigations-list');
+        (d.investigations || []).forEach((inv, i) => {
+          if (i > 0) {
+            list.appendChild(document.createElement('hr')).className = 'card-divider';
+          }
+          const card = document.createElement('div');
+          card.className = 'investigation-card';
+
+          // Image column
+          if (inv.image) {
+            const img = document.createElement('img');
+            img.src = inv.image;
+            img.alt = inv.location + ' photo';
+            img.className = 'investigation-img';
+            card.appendChild(img);
+          } else {
+            const ph = document.createElement('div');
+            ph.className = 'investigation-img-placeholder';
+            ph.textContent = '🔦';
+            card.appendChild(ph);
+          }
+
+          // Text column
+          const text = document.createElement('div');
+          text.className = 'investigation-text';
+
+          const h2 = document.createElement('h2');
+          h2.textContent = inv.location;
+          text.appendChild(h2);
+
+          if (inv.date) {
+            const date = document.createElement('p');
+            date.className = 'investigation-date';
+            date.textContent = inv.date;
+            text.appendChild(date);
+          }
+
+          if (inv.summary) {
+            const summary = document.createElement('p');
+            summary.className = 'investigation-summary';
+            summary.textContent = inv.summary;
+            text.appendChild(summary);
+          }
+
+          card.appendChild(text);
+          list.appendChild(card);
+        });
+      })
+      .catch(() => {});
+  </script>
+
+</body>
+</html>
