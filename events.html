@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Upcoming events, investigations, appearances, and public programming from 13Paranormal." />
+  <title>Events | 13Paranormal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Events page styles ── */
+    .events-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    .events-page h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .events-intro {
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      opacity: 0.85;
+    }
+
+    .events-subscribe {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .events-subscribe a {
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .calendar-embed {
+      position: relative;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+    }
+
+    .calendar-embed iframe {
+      display: block;
+      width: 100%;
+      height: 650px;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      .calendar-embed iframe {
+        height: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" id="nav-title">13Paranormal</a>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/events" aria-current="page">Events</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle"
+        aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===================== EVENTS ===================== -->
+  <main>
+    <section class="events-page" aria-labelledby="events-heading">
+      <h1 id="events-heading">Events</h1>
+      <p class="events-intro">
+        Follow along with 13Paranormal investigations, appearances, and public events.
+      </p>
+
+      <p class="events-subscribe">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+        </svg>
+        <a href="https://calendar.google.com/calendar/ical/11460f39d4cafa918af23313b71f5b1ef2a9432457b40728f436d8dcd0c34d15%40group.calendar.google.com/public/basic.ics"
+           target="_blank" rel="noopener noreferrer">
+          Subscribe to this calendar
+        </a>
+        — add to Google Calendar, Apple Calendar, or Outlook for automatic updates.
+      </p>
+
+      <!-- Embedded Google Calendar -->
+      <div class="calendar-embed">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=11460f39d4cafa918af23313b71f5b1ef2a9432457b40728f436d8dcd0c34d15%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showTabs=1&showCalendars=0"
+          style="border:0"
+          frameborder="0"
+          scrolling="no"
+          title="13Paranormal Events Calendar">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <p>
+      &copy; <span id="year"></span>
+      <span id="footer-text"></span>
+      &nbsp;|&nbsp;
+      <a href="#" id="footer-email"></a>
+    </p>
+  </footer>
+
+  <script>
+    // ── Mobile nav toggle ────────────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', (e) => {
+      if (!toggle.contains(e.target) && !links.contains(e.target)) {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ── Footer year ──────────────────────────────────────
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Load nav logo + footer from shared content.json ─
+    fetch('/_data/content.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        if (d.nav_title)    document.getElementById('nav-title').textContent   = d.nav_title;
+        if (d.footer_text)  document.getElementById('footer-text').textContent = d.footer_text;
+        if (d.contact_email) {
+          const fe = document.getElementById('footer-email');
+          fe.href        = 'mailto:' + d.contact_email;
+          fe.textContent = d.contact_email;
+        }
+      })
+      .catch(() => {});
+  </script>
+
+</body>
+</html>
