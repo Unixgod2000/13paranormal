@@ -23,12 +23,12 @@ collections:
           - label: "Browser Tab Title"
             name: site_title
             widget: string
-            required: false
             hint: "Text shown in the browser tab."
 
           - label: "Navigation Logo Text"
             name: nav_title
             widget: string
+            required: false
             hint: "Organization name shown in the top-left navigation bar."
 
           - label: "Hero — Logo Image"
@@ -84,3 +84,75 @@ collections:
             name: footer_text
             widget: string
             hint: "Organization name in the footer copyright line."
+
+      # ── Bio Page ──────────────────────────────────────────────────────────────
+      - name: bios
+        label: Bio Page
+        label_singular: Team Member
+        folder: public/content/bios
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Name, name: title, widget: string }
+          - { label: Role / Title, name: role, widget: string, required: false }
+          - { label: Photo, name: photo, widget: image, required: false }
+          - { label: Bio, name: body, widget: markdown }
+
+      # ── About Us ──────────────────────────────────────────────────────────────
+      - name: about
+        label: About Us
+        folder: public/content/about
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Section Title, name: title, widget: string }
+          - { label: Content, name: body, widget: markdown }
+
+      # ── Past Investigations ───────────────────────────────────────────────────
+      - name: investigations
+        label: Past Investigations
+        label_singular: Investigation
+        folder: public/content/investigations
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Location Name, name: title, widget: string }
+          - { label: Date, name: date, widget: date, required: false }
+          - { label: Featured Image, name: image, widget: image, required: false }
+          - { label: Summary, name: body, widget: markdown }
+
+      # ── Contact Us ────────────────────────────────────────────────────────────
+      - name: contact
+        label: Contact Us
+        folder: public/content/contact
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Page Title, name: title, widget: string }
+          - { label: Intro Text, name: body, widget: markdown }
+          - { label: Contact Email, name: email, widget: string, required: false }
+
+      # ── Equipment Page ────────────────────────────────────────────────────────
+      - name: equipment
+        label: Equipment Page
+        label_singular: Equipment Item
+        folder: public/content/equipment
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Equipment Name, name: title, widget: string }
+          - { label: Photo, name: photo, widget: image, required: false }
+          - { label: Description, name: body, widget: markdown }
+
+      # ── Events ────────────────────────────────────────────────────────────────
+      - name: events
+        label: Events Calendar
+        label_singular: Event
+        folder: public/content/events
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - { label: Event Name, name: title, widget: string }
+          - { label: Date, name: date, widget: datetime }
+          - { label: Location, name: location, widget: string, required: false }
+          - { label: Description, name: body, widget: markdown }
