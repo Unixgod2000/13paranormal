@@ -11,7 +11,7 @@ site_url: https://www.13paranormal.org
 
 collections:
 
-  # ── Home Page (file collection) ───────────────────────────────────────────
+  # ── Site-wide settings + Home Page ────────────────────────────────────────
   - name: site_content
     label: Site Content
     files:
@@ -87,74 +87,163 @@ collections:
             widget: string
             hint: "Organization name in the footer copyright line."
 
-  # ── Bio Page ──────────────────────────────────────────────────────────────
-  - name: bios
-    label: Bio Page
-    label_singular: Team Member
-    folder: content/bios
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Name, name: title, widget: string }
-      - { label: "Role / Title", name: role, widget: string, required: false }
-      - { label: Photo, name: photo, widget: image, required: false }
-      - { label: Bio, name: body, widget: markdown }
+          - label: "Navigation — Page Visibility"
+            name: pages
+            widget: list
+            summary: "{{fields.label}} — {{fields.enabled}}"
+            hint: "Control which pages appear in the navigation bar. Toggle 'Enabled' to show or hide a page link."
+            fields:
+              - label: "Page ID"
+                name: id
+                widget: string
+                hint: "Do not change — must match the page filename (e.g. 'events' for events.html)."
+              - label: "Nav Label"
+                name: label
+                widget: string
+                hint: "Text shown in the navigation bar."
+              - label: "Enabled"
+                name: enabled
+                widget: boolean
+                default: false
+                hint: "Show this page in the nav bar."
 
   # ── About Us ──────────────────────────────────────────────────────────────
-  - name: about
+  - name: about_page
     label: About Us
-    folder: content/about
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Section Title", name: title, widget: string }
-      - { label: Content, name: body, widget: markdown }
+    files:
+      - name: about
+        label: About Us
+        file: _data/about.json
+        format: json
+        fields:
+          - label: "Page Title"
+            name: page_title
+            widget: string
+            hint: "Heading shown at the top of the About Us page."
+          - label: "Sections"
+            name: sections
+            widget: list
+            summary: "{{fields.heading}}"
+            hint: "Add as many sections as you need. Each section has a heading and a body of text."
+            fields:
+              - label: "Section Heading"
+                name: heading
+                widget: string
+              - label: "Section Body"
+                name: body
+                widget: text
+
+  # ── Bio Page ──────────────────────────────────────────────────────────────
+  - name: bios_page
+    label: Bio Page
+    files:
+      - name: bios
+        label: Bio Page
+        file: _data/bios.json
+        format: json
+        fields:
+          - label: "Page Title"
+            name: page_title
+            widget: string
+            hint: "Heading shown at the top of the Bio page (e.g. 'Meet the Team')."
+          - label: "Page Intro"
+            name: page_intro
+            widget: text
+            required: false
+            hint: "Optional short paragraph below the heading."
+          - label: "Team Members"
+            name: members
+            widget: list
+            summary: "{{fields.name}}"
+            hint: "Add one entry per team member. Drag to reorder."
+            fields:
+              - label: "Name"
+                name: name
+                widget: string
+              - label: "Role / Title"
+                name: role
+                widget: string
+                required: false
+              - label: "Photo"
+                name: photo
+                widget: image
+                required: false
+                hint: "Square or portrait photo recommended."
+              - label: "Bio"
+                name: bio
+                widget: text
 
   # ── Past Investigations ───────────────────────────────────────────────────
-  - name: investigations
+  - name: investigations_page
     label: Past Investigations
-    label_singular: Investigation
-    folder: content/investigations
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Location Name", name: title, widget: string }
-      - { label: Date, name: date, widget: datetime, type: date, required: false }
-      - { label: "Featured Image", name: image, widget: image, required: false }
-      - { label: Summary, name: body, widget: markdown }
-
-  # ── Contact Us ────────────────────────────────────────────────────────────
-  - name: contact
-    label: Contact Us
-    folder: content/contact
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Page Title", name: title, widget: string }
-      - { label: "Intro Text", name: body, widget: markdown }
-      - { label: "Contact Email", name: email, widget: string, required: false }
+    files:
+      - name: investigations
+        label: Past Investigations
+        file: _data/investigations.json
+        format: json
+        fields:
+          - label: "Page Title"
+            name: page_title
+            widget: string
+            hint: "Heading shown at the top of the Past Investigations page."
+          - label: "Page Intro"
+            name: page_intro
+            widget: text
+            required: false
+            hint: "Optional short paragraph below the heading."
+          - label: "Investigations"
+            name: investigations
+            widget: list
+            summary: "{{fields.location}}"
+            hint: "Add one entry per investigation. Drag to reorder."
+            fields:
+              - label: "Location Name"
+                name: location
+                widget: string
+              - label: "Date"
+                name: date
+                widget: string
+                required: false
+                hint: "e.g. October 2024 — plain text so you can be as specific or vague as you like."
+              - label: "Featured Image"
+                name: image
+                widget: image
+                required: false
+              - label: "Summary"
+                name: summary
+                widget: text
 
   # ── Equipment Page ────────────────────────────────────────────────────────
-  - name: equipment
+  - name: equipment_page
     label: Equipment Page
-    label_singular: "Equipment Item"
-    folder: content/equipment
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Equipment Name", name: title, widget: string }
-      - { label: Photo, name: photo, widget: image, required: false }
-      - { label: Description, name: body, widget: markdown }
-
-  # ── Events Calendar ───────────────────────────────────────────────────────
-  - name: events
-    label: Events Calendar
-    label_singular: Event
-    folder: content/events
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Event Name", name: title, widget: string }
-      - { label: Date, name: date, widget: datetime }
-      - { label: Location, name: location, widget: string, required: false }
-      - { label: Description, name: body, widget: markdown }
+    files:
+      - name: equipment
+        label: Equipment Page
+        file: _data/equipment.json
+        format: json
+        fields:
+          - label: "Page Title"
+            name: page_title
+            widget: string
+            hint: "Heading shown at the top of the Equipment page."
+          - label: "Page Intro"
+            name: page_intro
+            widget: text
+            required: false
+            hint: "Optional short paragraph below the heading."
+          - label: "Equipment Items"
+            name: items
+            widget: list
+            summary: "{{fields.name}}"
+            hint: "Add one entry per piece of equipment. Drag to reorder."
+            fields:
+              - label: "Equipment Name"
+                name: name
+                widget: string
+              - label: "Photo"
+                name: photo
+                widget: image
+                required: false
+              - label: "Description"
+                name: description
+                widget: text
