@@ -91,9 +91,7 @@ img { max-width: 100%; display: block; }
 /* ============================================================
    HERO — two-column when logo is present
    ============================================================ */
-.hero {
-  padding: 4rem 0;
-}
+.hero { padding: 4rem 0; }
 .hero-inner {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -102,8 +100,6 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 3rem;
 }
-
-/* Logo column — left side */
 .hero-logo {
   display: flex;
   align-items: center;
@@ -115,22 +111,9 @@ img { max-width: 100%; display: block; }
   width: 100%;
   height: auto;
   border-radius: 12px;
-  /* Subtle glow effect suits paranormal theme */
   filter: drop-shadow(0 0 16px rgba(34, 110, 147, 0.4));
 }
-
-/* Text column — right side */
-.hero-text {
-  flex: 1;
-  text-align: left;
-}
-
-/* When no logo, center the text */
-.hero-inner:not(:has(.hero-logo[style*="flex"])) .hero-text {
-  text-align: center;
-  margin: 0 auto;
-}
-
+.hero-text { flex: 1; text-align: left; }
 .hero-title {
   font-family: 'Times New Roman', Georgia, serif;
   font-size: clamp(1.75rem, 4vw, 2.4rem);
@@ -210,9 +193,58 @@ img { max-width: 100%; display: block; }
   margin-bottom: 0.75rem;
   line-height: 1.75;
 }
-.cta-contact { font-size: 1rem; color: var(--body-text); }
+.cta-contact {
+  font-size: 1rem;
+  color: var(--body-text);
+  margin-bottom: 2rem;
+}
 .cta-contact a { color: var(--accent); font-weight: 700; }
 .cta-contact a:hover { color: var(--white); }
+
+/* ============================================================
+   SOCIAL MEDIA LINKS
+   ============================================================ */
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.social-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-text);
+  transition: color 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+.social-link:hover {
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.social-icon {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+/* Per-platform brand colors on hover */
+.social-link:nth-child(1):hover { color: #E1306C; } /* Instagram pink */
+.social-link:nth-child(2):hover { color: #ffffff; } /* X white */
+.social-link:nth-child(3):hover { color: #ff0050; } /* TikTok red */
+
+.social-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
 
 /* ============================================================
    FOOTER
@@ -231,22 +263,22 @@ img { max-width: 100%; display: block; }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 720px) {
-  /* Hero stacks vertically on mobile */
   .hero-inner {
     flex-direction: column;
     text-align: center;
     gap: 2rem;
   }
-  .hero-logo { width: 160px; }
+  .hero-logo  { width: 160px; }
   .hero-text  { text-align: center; }
   .hero-body  { max-width: none; }
 
-  .services-grid  { grid-template-columns: 1fr; gap: 2rem; }
-  .hero           { padding: 3rem 0; }
-  .services       { padding: 3rem 0; }
-  .cta-section    { padding: 3rem 0; }
+  .services-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero          { padding: 3rem 0; }
+  .services      { padding: 3rem 0; }
+  .cta-section   { padding: 3rem 0; }
 
-  /* Mobile nav */
+  .social-links  { gap: 1.5rem; }
+
   .nav-links {
     display: none;
     flex-direction: column;
