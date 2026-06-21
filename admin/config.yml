@@ -119,7 +119,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Location Name", name: title, widget: string }
-      - { label: Date, name: date, widget: date, required: false }
+      - { label: Date, name: date, widget: datetime, type: date, required: false }
       - { label: "Featured Image", name: image, widget: image, required: false }
       - { label: Summary, name: body, widget: markdown }
 
