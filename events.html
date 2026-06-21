@@ -16,71 +16,30 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-    /* ── Events page styles ── */
-    .events-page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 4rem;
-    }
-
-    .events-page h1 {
-      font-size: 2.25rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .events-intro {
-      font-size: 1.05rem;
-      margin-bottom: 2rem;
-      opacity: 0.85;
-    }
-
+    .events-page { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .events-page h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .events-intro { font-size: 1.05rem; margin-bottom: 2rem; opacity: 0.85; }
     .events-subscribe {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 2rem; font-size: 0.95rem;
     }
-
-    .events-subscribe a {
-      font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
+    .events-subscribe a { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
     .calendar-embed {
-      position: relative;
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+      position: relative; width: 100%; border-radius: 8px;
+      overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.35);
     }
-
-    .calendar-embed iframe {
-      display: block;
-      width: 100%;
-      height: 650px;
-      border: 0;
-    }
-
-    @media (max-width: 600px) {
-      .calendar-embed iframe {
-        height: 480px;
-      }
-    }
+    .calendar-embed iframe { display: block; width: 100%; height: 650px; border: 0; }
+    @media (max-width: 600px) { .calendar-embed iframe { height: 480px; } }
   </style>
 </head>
 <body>
 
-  <!-- ===================== NAV ===================== -->
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
       <a href="/" class="nav-logo" id="nav-title">13Paranormal</a>
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="/">Home</a></li>
-        <li><a href="/events" aria-current="page">Events</a></li>
-        <li><a href="/#contact">Contact</a></li>
+        <!-- dynamic nav links injected here -->
       </ul>
       <button class="nav-toggle" id="nav-toggle"
         aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
@@ -89,7 +48,6 @@
     </div>
   </nav>
 
-  <!-- ===================== EVENTS ===================== -->
   <main>
     <section class="events-page" aria-labelledby="events-heading">
       <h1 id="events-heading">Events</h1>
@@ -108,10 +66,9 @@
         — add to Google Calendar, Apple Calendar, or Outlook for automatic updates.
       </p>
 
-      <!-- Embedded Google Calendar -->
       <div class="calendar-embed">
         <iframe
-          src="https://calendar.google.com/calendar/embed?src=11460f39d4cafa918af23313b71f5b1ef2a9432457b40728f436d8dcd0c34d15%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showTabs=1&showCalendars=0"
+          src="https://calendar.google.com/calendar/embed?src=11460f39d4cafa918af23313b71f5b1ef2a9432457b40728f436d8dcd0c34d15%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0"
           style="border:0"
           frameborder="0"
           scrolling="no"
@@ -121,7 +78,6 @@
     </section>
   </main>
 
-  <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
     <p>
       &copy; <span id="year"></span>
@@ -132,24 +88,21 @@
   </footer>
 
   <script>
-    // ── Mobile nav toggle ────────────────────────────────
-    const toggle = document.getElementById('nav-toggle');
-    const links  = document.getElementById('nav-links');
+    const toggle  = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
     toggle.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
+      const open = navLinks.classList.toggle('open');
       toggle.setAttribute('aria-expanded', String(open));
     });
-    document.addEventListener('click', (e) => {
-      if (!toggle.contains(e.target) && !links.contains(e.target)) {
-        links.classList.remove('open');
+    document.addEventListener('click', e => {
+      if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
 
-    // ── Footer year ──────────────────────────────────────
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ── Load nav logo + footer from shared content.json ─
     fetch('/_data/content.json')
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(d => {
@@ -157,9 +110,24 @@
         if (d.footer_text)  document.getElementById('footer-text').textContent = d.footer_text;
         if (d.contact_email) {
           const fe = document.getElementById('footer-email');
-          fe.href        = 'mailto:' + d.contact_email;
+          fe.href = 'mailto:' + d.contact_email;
           fe.textContent = d.contact_email;
         }
+
+        // Build dynamic nav from pages array
+        (d.pages || []).forEach(p => {
+          if (!p.enabled) return;
+          const li = document.createElement('li');
+          const a  = document.createElement('a');
+          a.href = '/' + p.id;
+          a.textContent = p.label;
+          if (p.id === 'events') a.setAttribute('aria-current', 'page');
+          li.appendChild(a);
+          navLinks.appendChild(li);
+        });
+        const contactLi = document.createElement('li');
+        contactLi.innerHTML = '<a href="/#contact">Contact</a>';
+        navLinks.appendChild(contactLi);
       })
       .catch(() => {});
   </script>
