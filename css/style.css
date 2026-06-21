@@ -227,6 +227,7 @@ img { max-width: 100%; display: block; }
 .social-link.instagram:hover { color: #E1306C; }
 .social-link.x:hover         { color: #ffffff; }
 .social-link.tiktok:hover    { color: #ff0050; }
+.social-link.facebook:hover  { color: #1877F2; }
 
 .social-icon {
   width: 16px;
