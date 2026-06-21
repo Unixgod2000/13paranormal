@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Meet the investigators of 13Paranormal." id="meta-description" />
+  <meta name="description" content="Meet the investigators of 13Paranormal." />
   <title>Meet the Team | 13Paranormal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,40 +16,82 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-    .inner-page { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .inner-page h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .page-intro { font-size: 1.05rem; opacity: 0.85; margin-bottom: 2.5rem; }
-    .bios-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 2rem;
+    .inner-page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
     }
-    .bio-card {
+
+    .inner-page h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-intro {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Individual bio block ── */
+    .bio-block {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 2rem 0;
     }
+
     .bio-photo {
-      width: 100%;
-      aspect-ratio: 1 / 1;
+      width: 220px;
+      height: 220px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 50%;
       background: rgba(255,255,255,0.06);
+      flex-shrink: 0;
     }
+
     .bio-photo-placeholder {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 8px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
       background: rgba(255,255,255,0.06);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3rem;
+      font-size: 4rem;
       opacity: 0.3;
+      flex-shrink: 0;
     }
-    .bio-name { font-size: 1.2rem; font-weight: 700; margin: 0; }
-    .bio-role { font-size: 0.9rem; opacity: 0.65; margin: 0; }
-    .bio-body { font-size: 0.95rem; line-height: 1.7; opacity: 0.88; white-space: pre-line; }
+
+    .bio-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .bio-role {
+      font-size: 0.95rem;
+      opacity: 0.6;
+      margin: 0;
+    }
+
+    .bio-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      opacity: 0.88;
+      white-space: pre-line;
+      max-width: 600px;
+    }
+
+    /* ── Section divider between bios ── */
+    .bio-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -71,7 +113,7 @@
     <div class="inner-page" aria-live="polite">
       <h1 id="page-title">Meet the Team</h1>
       <p class="page-intro" id="page-intro"></p>
-      <div class="bios-grid" id="bios-grid"></div>
+      <div id="bios-container"></div>
     </div>
   </main>
 
@@ -85,55 +127,52 @@
   </footer>
 
   <script>
-    function buildNav(data, currentPage) {
-      const ul = document.getElementById('nav-links');
-      ul.innerHTML = '<li><a href="/">Home</a></li>';
-      (data.pages || []).forEach(p => {
-        if (!p.enabled) return;
-        const li = document.createElement('li');
-        const a  = document.createElement('a');
-        a.href = '/' + p.id;
-        a.textContent = p.label;
-        if (p.id === currentPage) a.setAttribute('aria-current', 'page');
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
-      const contactLi = document.createElement('li');
-      contactLi.innerHTML = '<a href="/#contact">Contact</a>';
-      ul.appendChild(contactLi);
-    }
-
-    function applyShared(data, currentPage) {
-      if (data.nav_title)     document.getElementById('nav-title').textContent   = data.nav_title;
-      if (data.footer_text)   document.getElementById('footer-text').textContent = data.footer_text;
-      if (data.contact_email) {
-        const fe = document.getElementById('footer-email');
-        fe.href = 'mailto:' + data.contact_email;
-        fe.textContent = data.contact_email;
-      }
-      buildNav(data, currentPage);
-    }
-
-    const toggle = document.getElementById('nav-toggle');
-    const links  = document.getElementById('nav-links');
+    // ── Nav toggle ───────────────────────────────────────
+    const toggle  = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
     toggle.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
+      const open = navLinks.classList.toggle('open');
       toggle.setAttribute('aria-expanded', String(open));
     });
     document.addEventListener('click', e => {
-      if (!toggle.contains(e.target) && !links.contains(e.target)) {
-        links.classList.remove('open');
+      if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // ── Shared content (nav + footer) ───────────────────
     fetch('/_data/content.json')
       .then(r => r.ok ? r.json() : Promise.reject())
-      .then(d => applyShared(d, 'bios'))
+      .then(d => {
+        if (d.nav_title)     document.getElementById('nav-title').textContent   = d.nav_title;
+        if (d.footer_text)   document.getElementById('footer-text').textContent = d.footer_text;
+        if (d.contact_email) {
+          const fe = document.getElementById('footer-email');
+          fe.href = 'mailto:' + d.contact_email;
+          fe.textContent = d.contact_email;
+        }
+
+        // Dynamic nav
+        (d.pages || []).forEach(p => {
+          if (!p.enabled) return;
+          const li = document.createElement('li');
+          const a  = document.createElement('a');
+          a.href = '/' + p.id;
+          a.textContent = p.label;
+          if (p.id === 'bios') a.setAttribute('aria-current', 'page');
+          li.appendChild(a);
+          navLinks.appendChild(li);
+        });
+        const contactLi = document.createElement('li');
+        contactLi.innerHTML = '<a href="/#contact">Contact</a>';
+        navLinks.appendChild(contactLi);
+      })
       .catch(() => {});
 
+    // ── Bios content ─────────────────────────────────────
     fetch('/_data/bios.json')
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(d => {
@@ -141,46 +180,61 @@
           document.getElementById('page-title').textContent = d.page_title;
           document.title = d.page_title + ' | 13Paranormal';
         }
-        if (d.page_intro) document.getElementById('page-intro').textContent = d.page_intro;
+        if (d.page_intro) {
+          document.getElementById('page-intro').textContent = d.page_intro;
+        }
 
-        const grid = document.getElementById('bios-grid');
-        (d.members || []).forEach(m => {
-          const card = document.createElement('div');
-          card.className = 'bio-card';
+        const container = document.getElementById('bios-container');
+        (d.members || []).forEach((m, i) => {
 
+          // Section break before every bio after the first
+          if (i > 0) {
+            const hr = document.createElement('hr');
+            hr.className = 'bio-divider';
+            container.appendChild(hr);
+          }
+
+          const block = document.createElement('div');
+          block.className = 'bio-block';
+
+          // Photo or placeholder
           if (m.photo) {
             const img = document.createElement('img');
             img.src = m.photo;
             img.alt = m.name + ' photo';
             img.className = 'bio-photo';
-            card.appendChild(img);
+            block.appendChild(img);
           } else {
             const ph = document.createElement('div');
             ph.className = 'bio-photo-placeholder';
+            ph.setAttribute('aria-hidden', 'true');
             ph.textContent = '👤';
-            card.appendChild(ph);
+            block.appendChild(ph);
           }
 
+          // Name
           const name = document.createElement('p');
           name.className = 'bio-name';
           name.textContent = m.name;
-          card.appendChild(name);
+          block.appendChild(name);
 
+          // Role (optional)
           if (m.role) {
             const role = document.createElement('p');
             role.className = 'bio-role';
             role.textContent = m.role;
-            card.appendChild(role);
+            block.appendChild(role);
           }
 
+          // Bio text
           if (m.bio) {
             const bio = document.createElement('p');
-            bio.className = 'bio-body';
+            bio.className = 'bio-text';
             bio.textContent = m.bio;
-            card.appendChild(bio);
+            block.appendChild(bio);
           }
 
-          grid.appendChild(card);
+          container.appendChild(block);
         });
       })
       .catch(() => {});
