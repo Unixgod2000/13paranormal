@@ -10,6 +10,8 @@ public_folder: /images
 site_url: https://www.13paranormal.org
 
 collections:
+
+  # ── Home Page (file collection) ───────────────────────────────────────────
   - name: site_content
     label: Site Content
     files:
@@ -85,74 +87,74 @@ collections:
             widget: string
             hint: "Organization name in the footer copyright line."
 
-      # ── Bio Page ──────────────────────────────────────────────────────────────
-      - name: bios
-        label: Bio Page
-        label_singular: Team Member
-        folder: public/content/bios
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Name, name: title, widget: string }
-          - { label: Role / Title, name: role, widget: string, required: false }
-          - { label: Photo, name: photo, widget: image, required: false }
-          - { label: Bio, name: body, widget: markdown }
+  # ── Bio Page ──────────────────────────────────────────────────────────────
+  - name: bios
+    label: Bio Page
+    label_singular: Team Member
+    folder: content/bios
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: title, widget: string }
+      - { label: "Role / Title", name: role, widget: string, required: false }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Bio, name: body, widget: markdown }
 
-      # ── About Us ──────────────────────────────────────────────────────────────
-      - name: about
-        label: About Us
-        folder: public/content/about
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Section Title, name: title, widget: string }
-          - { label: Content, name: body, widget: markdown }
+  # ── About Us ──────────────────────────────────────────────────────────────
+  - name: about
+    label: About Us
+    folder: content/about
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Section Title", name: title, widget: string }
+      - { label: Content, name: body, widget: markdown }
 
-      # ── Past Investigations ───────────────────────────────────────────────────
-      - name: investigations
-        label: Past Investigations
-        label_singular: Investigation
-        folder: public/content/investigations
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Location Name, name: title, widget: string }
-          - { label: Date, name: date, widget: date, required: false }
-          - { label: Featured Image, name: image, widget: image, required: false }
-          - { label: Summary, name: body, widget: markdown }
+  # ── Past Investigations ───────────────────────────────────────────────────
+  - name: investigations
+    label: Past Investigations
+    label_singular: Investigation
+    folder: content/investigations
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Location Name", name: title, widget: string }
+      - { label: Date, name: date, widget: date, required: false }
+      - { label: "Featured Image", name: image, widget: image, required: false }
+      - { label: Summary, name: body, widget: markdown }
 
-      # ── Contact Us ────────────────────────────────────────────────────────────
-      - name: contact
-        label: Contact Us
-        folder: public/content/contact
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Page Title, name: title, widget: string }
-          - { label: Intro Text, name: body, widget: markdown }
-          - { label: Contact Email, name: email, widget: string, required: false }
+  # ── Contact Us ────────────────────────────────────────────────────────────
+  - name: contact
+    label: Contact Us
+    folder: content/contact
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Page Title", name: title, widget: string }
+      - { label: "Intro Text", name: body, widget: markdown }
+      - { label: "Contact Email", name: email, widget: string, required: false }
 
-      # ── Equipment Page ────────────────────────────────────────────────────────
-      - name: equipment
-        label: Equipment Page
-        label_singular: Equipment Item
-        folder: public/content/equipment
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Equipment Name, name: title, widget: string }
-          - { label: Photo, name: photo, widget: image, required: false }
-          - { label: Description, name: body, widget: markdown }
+  # ── Equipment Page ────────────────────────────────────────────────────────
+  - name: equipment
+    label: Equipment Page
+    label_singular: "Equipment Item"
+    folder: content/equipment
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Equipment Name", name: title, widget: string }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Description, name: body, widget: markdown }
 
-      # ── Events ────────────────────────────────────────────────────────────────
-      - name: events
-        label: Events Calendar
-        label_singular: Event
-        folder: public/content/events
-        create: true
-        slug: "{{slug}}"
-        fields:
-          - { label: Event Name, name: title, widget: string }
-          - { label: Date, name: date, widget: datetime }
-          - { label: Location, name: location, widget: string, required: false }
-          - { label: Description, name: body, widget: markdown }
+  # ── Events Calendar ───────────────────────────────────────────────────────
+  - name: events
+    label: Events Calendar
+    label_singular: Event
+    folder: content/events
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Event Name", name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Location, name: location, widget: string, required: false }
+      - { label: Description, name: body, widget: markdown }
